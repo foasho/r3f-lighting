@@ -1,11 +1,10 @@
 import { useControls } from "leva";
-import { RectAreaLight, DoubleSide, Vector2, Vector3, Euler } from "three";
-import { RectAreaLightHelper } from "three-stdlib";
+import { RectAreaLight, DoubleSide, Vector2, Vector3, Euler, Matrix4 } from "three";
 import { useRef, useState } from "react";
-import { PivotControls, useHelper } from "@react-three/drei";
+import { PivotControls } from "@react-three/drei";
 import { toEuler, toVector2, toVector3 } from "./utils/ThreeCommons";
 
-type LightingControlsProps = {
+type AreaLightingControlsProps = {
   name: string;
   helper: boolean;
   lightColor: string;
@@ -14,7 +13,7 @@ type LightingControlsProps = {
   lightIntensity: number;
   lightWH: Vector2 | [number, number];
 }
-export const LightingControls = (
+export const AreaLightingControls = (
   { 
     name, 
     helper,
@@ -23,7 +22,7 @@ export const LightingControls = (
     lightRot,
     lightIntensity,
     lightWH,
-  }: LightingControlsProps
+  }: AreaLightingControlsProps
 ) => {
 
   const _lp = toVector3(lightPos);
@@ -42,7 +41,7 @@ export const LightingControls = (
     intensity: {
       value: lightIntensity,
       min: 0,
-      max: 10,
+      max: 30,
       step: 0.1
     },
     lightPosition: {
@@ -66,8 +65,11 @@ export const LightingControls = (
   const pivotLight = useRef<any>(null);
   const [selectedLight, setSelectedLight] = useState<boolean>(false);
 
-  const onDrag = (e: any) => {
-    console.log(e);
+  const onDrag = (e: Matrix4) => {
+    const pos = new Vector3().setFromMatrixPosition(e);
+    const rot = new Euler().setFromRotationMatrix(e);
+    console.log("pos: ", pos.x, pos.y, pos.z);
+    console.log("rot: ", rot.x, rot.y, rot.z);
   }
 
   return (
@@ -101,6 +103,7 @@ export const LightingControls = (
             intensity={intensity}
             color={color}
             visible={visible}
+            castShadow
           />
           <mesh
             onClick={(e) => {
