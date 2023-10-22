@@ -2,6 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, GizmoHelper, GizmoViewport, useGLTF, Center, SoftShadows } from "@react-three/drei";
 import { useControls } from "leva";
 import { Basic } from "./Lightings/Basic";
+import { WhoAreYou } from "./Lightings/WhoAreYou";
 function App() {
   return (
     <div style={{ height: "100dvh", width: "100dvw" }}>
@@ -36,7 +37,6 @@ const Scene = () => {
       value: "Basic",
       options: [
         "Basic", 
-        "Custom",
         "WhoAreYou",
         "Cyberpunk",
         "PhotoStudio",
@@ -65,6 +65,7 @@ const Scene = () => {
       <fog attach="fog" args={['black', 0, 20]} />
       <SoftShadows samples={3} />
       {lighting === "Basic" && <Basic />}
+      {lighting === "WhoAreYou" && <WhoAreYou />}
     </>
   )
 }
