@@ -2,7 +2,7 @@ import { useControls } from "leva";
 import { RectAreaLight, DoubleSide, Vector2, Vector3, Euler, Matrix4 } from "three";
 import { useRef, useState } from "react";
 import { PivotControls } from "@react-three/drei";
-import { toEuler, toVector2, toVector3 } from "./utils/ThreeCommons";
+import { toEuler, toVector2, toVector3 } from "../../utils/ThreeCommons";
 
 type AreaLightingControlsProps = {
   name: string;
