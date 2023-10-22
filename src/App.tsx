@@ -1,8 +1,5 @@
-import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, GizmoHelper, GizmoViewport, useGLTF, Center, useHelper, PivotControls } from "@react-three/drei";
-import { DoubleSide, Euler, RectAreaLight, Vector3 } from "three";
-import { RectAreaLightHelper } from "three-stdlib";
+import { OrbitControls, GizmoHelper, GizmoViewport, useGLTF, Center } from "@react-three/drei";
 import { useControls } from "leva";
 import { LightingControls } from "./LightingControl";
 
@@ -25,7 +22,11 @@ function App() {
 const Scene = () => {
 
   const { scene } = useGLTF("/Aphrodita.glb") as any;
-  const { lighting } = useControls({ 
+  const { 
+    lighting,
+    isBackground,
+    background
+  } = useControls({ 
     lighting: {
       value: "Basic",
       options: [
@@ -41,7 +42,9 @@ const Scene = () => {
         "Alone",
         "Horror",
       ]
-    }
+    },
+    isBackground: true,
+    background: "#100e0e",
   });
 
   return (
@@ -51,6 +54,9 @@ const Scene = () => {
           <primitive object={scene} />
         </group>
       </Center>
+      <color attach="background" args={[
+        isBackground ? background : "transparent"
+      ]} />
       {lighting === "Basic" && <BasicLighting />}
     </>
   )
@@ -64,7 +70,7 @@ const BasicLighting = () => {
   const {
     helper
   } = useControls({
-    helper: true
+    helper: false
   });
 
   return (

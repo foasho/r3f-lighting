@@ -66,9 +66,6 @@ export const LightingControls = (
   const pivotLight = useRef<any>(null);
   const [selectedLight, setSelectedLight] = useState<boolean>(false);
 
-  // @ts-ignore
-  useHelper(helper && light, RectAreaLightHelper, color);
-
   const onDrag = (e: any) => {
     console.log(e);
   }
@@ -108,17 +105,24 @@ export const LightingControls = (
           <mesh
             onClick={(e) => {
               e.stopPropagation();
-              setSelectedLight(true);
+              if (helper){
+                setSelectedLight(true);
+              }
             }}
             onPointerMissed={(e) => {
               if (e.type === "click") {
                 setSelectedLight(false);
               }
             }}
-            visible={false}
+            visible={helper}
           >
             <boxGeometry args={[lightWidthHeight.x, lightWidthHeight.y, 0.1]} />
-            <meshBasicMaterial color={color} side={DoubleSide} wireframe />
+            <meshBasicMaterial 
+              color={color} 
+              side={DoubleSide} 
+              transparent
+              opacity={0.2}
+            />
           </mesh>
         </group>
       </PivotControls>
